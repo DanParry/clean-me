@@ -1,12 +1,11 @@
 # Clean Me Exercise
 
-Please take a look at clean-me.php
+The User class has been broken into its component parts to aid manageability and extensibility. To save overhead in the form of expensive database connections, a centralised Singleton class has been built to handle DB operations
 
-We'd like you to spend some time going through this code and refactoring it. The code is functional, but can definietely be improved upon. 
+All display code has been removed from the classes and placed in the output file, to properly separate logic and display
 
-To complete the exercise, please fork this repository and work in your fork. Once you've completed your rework create a Pull Request back to this repository so we can view the diff.   
+All member names have been converted to camelCase (including getProperties) for uniformity
 
-You are at liberty to do as much refactoring as you see fit, we only ask that you don't include any frameworks or dependancies via composer. That would make the diff unreadable, but feel free to assume there is one present, just make sure you note that in the comments. 
+To aid future maintenance, comments have been added in PHPDoc format
 
-
-Good luck!
+Properties have been put into a database table. It has been assumed that the first integer in the hard array was the PK ID of the record

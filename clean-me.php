@@ -1,70 +1,44 @@
 <?php
 
-    class User
-    {
-        public $prefix;
-        public $firstName;
-        public $lastName;
-        public $suffix;
+// get the config file
+require_once 'config/db.php';
+// get the DB class before anything else
+require_once 'classes/db.php';
+// get the User class
+require_once 'classes/user.php';
+// get the Users class
+require_once 'classes/users.php';
+// get the properties class
+require_once 'classes/properties.php';
 
-        function savePerson(){
-            $db = new mysqli('127.0.0.1', 'root', 'test', 'testing', 8889);
-            $db->query('INSERT INTO users (first_name, second_name) VALUES (\''.$this->firstName.'\', \''.$this->lastName.'\')');
-        }
+$user = new User();
+$user->setPrefix('Mr');
+$user->setFirstName("Peter");
+$user->setLastName("Johnson");
 
-        function get_person_by_last_name(){
-                $db = new mysqli('127.0.0.1', 'root', 'test', 'testing', 8889);
-                $res = $db->query('SELECT * FROM users WHERE second_name = \''.$this->lastName.'\'');
+echo($user->getFirstName());
+echo($user->getLastName());
+echo "<br><br>".$user->getFullName();
 
-                while ($x = $res->fetch_assoc()){
-                    echo $x['first_name'].' '.$x['second_name'];
-                }
-        }
+// $user->savePerson();
 
-        function getUsers(){
+$specificUser = $user->getPersonByLastName();
+echo "{$specificUser[0]->first_name} {$specificUser[0]->last_name}";
 
+$users = new Users();
+$allUsers = $users->getUsers();
 
-            $db = new mysqli('127.0.0.1', 'root', 'test', 'testing', 8889);
-            $res = $db->query('SELECT * FROM users');
+// display should be kept separate from logic and data elements, so prepare the table here
+echo '<table>';
+foreach($allUsers as $row) {
+	echo "<tr><td>{$row->first_name}</td><td>{$row->last_name}</td></tr>";
+}
+echo '</table>';
 
-            echo '<table>';
+$properties = new Properties();
 
-            while ($x = $res->fetch_assoc()){
-                echo '<tr>';
-                echo '<td>'.$x['first_name'].'</ td>';
-                echo '<td>'.$x['second_name'].'</ td>';
-                echo '</tr>';
-            }
-            echo '</table>';
+$data = $properties->GetProperties();
 
-        }
-
-        public function GetProperties()
-        {
-            // $acceptsPets = 1;
-            return [
-                ['7439', 'Craster Reach', '1', 'Craster', 'no smoking', "pets $acceptsPets"],
-                ['2105', 'Richard House', '5', 'chester', 'smoking', "pets $acceptsPets"]
-            ];
-        }
-
-    }
-
-    $user = new User();
-    $user->firstName = "Peter";
-    $user->lastName = "Johnson";
-
-
-    echo($user->firstName);
-    echo($user->lastName);
-
-    $user->savePerson();
-    $user->get_person_by_last_ name();
-    $user->getUsers();
-
-    $data = @$user->GetProperties(true);
-
-    foreach ($data as $value):
-        echo $value[1] . ", sleeps {$value[2]} <br />";
-    endforeach;
-?>
+foreach ($data as $value):
+	echo $value['address1'] . ", sleeps {$value['berth']} <br />";
+endforeach;
